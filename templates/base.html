@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+  <head>
+    <title>PyBlog | {{location}}</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.png') }}">
+    <link rel="stylesheet"  href="{{ url_for('static', filename='css/materialize.min.css') }}">
+    <link rel="stylesheet"  href="{{ url_for('static', filename='css/main.css') }}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="{{ url_for('static', filename='js/materialize.min.js') }}"></script>
+  </head>
+  <body>
+    <div class="row orange z-depth-2">
+      <div class="col s12">
+        <a class="left" href="/blog"><h1>PyBlog</h1></a>
+        <a class="left nav-button waves-effect waves-light btn-large blue white-text" href="/blog"><i class="material-icons left">view_comfy</i>View All</a>
+        <a class="left nav-button waves-effect waves-light btn-large blue white-text" href="/newpost"><i class="material-icons left">note_add</i>New Post</a>
+      </div>
+    </div>
+    <div class="">
+        {% block content %}
+        {% endblock %}
+    </div>
+    
+
+  </body>
+</html>

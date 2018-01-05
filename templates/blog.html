@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+    
+    {% if posts|length == 0 %}
+
+      <p>No post yet</p>
+
+    {% else %}
+      <div class="row">
+    {% for post in posts %}
+        <div class="col s12 m6 l3">
+          <a href="/blog?id={{post.id}}">
+            <div class="card small hoverable">
+              <div class="card-image">
+                {% set photo = post.image|string %}
+                <img src="data:image/jpeg;base64,{{photo[2:-1]}}">
+                <span class="card-date grey darken-4">{{post.created_on}}</span>
+                <span class="card-title truncate">{{post.title}}</span>
+              </div>
+              <div class="card-content">
+                <p>{{post.body}}</p>
+              </div>
+            </div>
+            </a>
+        </div>
+    {% endfor %}
+      </div>
+    {% endif %}
+
+{% endblock %}
+
