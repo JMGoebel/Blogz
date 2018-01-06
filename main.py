@@ -1,6 +1,14 @@
 from flask import Flask, request, redirect, render_template
 from flask_sqlalchemy import SQLAlchemy
 
+app = Flask(__name__)
+app.config['DEBUG'] = True
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://blogz_app:{}@localhost:8889/blogz'.format('f1nc53pM6fz0apb7ms')
+app.config['SQLALCHEMY_ECHO'] = True
+db = SQLAlchemy(app)
+
+from model import *
+
 def is_valid(field):
     if field == '':
         return "This field is required."
@@ -35,11 +43,7 @@ def newpost():
         if len(errors) > 0:
             return render_template('newpost.html', location="New Post",  title=post_title, body=post_body, errors=errors)
         
-        r = http.request('GET', 'https://source.unsplash.com/400x300/?nature')
-
-        image = base64.b64encode(r.data)
-        
-        new_post = Blog(post_title, post_body, image)
+        new_post = Blog(post_title, post_body)
         db.session.add(new_post)
         db.session.commit()
 
@@ -61,3 +65,6 @@ def blog():
             pass
 
     return render_template('blog.html', location="All Post", posts=posts)
+
+if __name__ == '__main__':
+  app.run()
