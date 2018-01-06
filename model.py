@@ -7,15 +7,16 @@ class Blog(db.Model):
   body = db.Column(db.Text, nullable=False)
   owner_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
-  def __init__(self, title, body):
+  def __init__(self, title, body, owner):
     self.title = title
     self.body = body
+    self.owner = owner
 
 class User(db.Model):
   id = db.Column(db.Integer, primary_key=True)
   username = db.Column(db.String(32), unique=True, nullable=False)
   password = db.Column(db.String(64), nullable=False)
-  blogs = db.relationship('Blog', backref='user', lazy=True)
+  blogs = db.relationship('Blog', backref='owner', lazy=True)
 
   def __init__(self, title, body):
     self.title = title
