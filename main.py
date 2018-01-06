@@ -10,9 +10,15 @@ db = SQLAlchemy(app)
 
 from model import *
 
-def is_valid(field):
-    if field == '':
-        return "This field is required."
+def is_valid(field, length=0):
+  # Return error if field is left blank
+  if field == '':
+    return "This field is required."
+
+  # if length is defined and field is not in range return error
+  if len(field) < length:
+    return "This field is to short."
+
 
 def sort_data(sort_on=None, sort_direction='asc'):
     if sort_on:
@@ -77,9 +83,10 @@ def signup():
     post_verify = request.form['verify']
 
     # Check for valid entry
-    if is_valid(post_username):  errors['username'] = is_valid(post_username)
-    if is_valid(post_password):  errors['password'] = is_valid(post_password)
-    if is_valid(post_verify):  errors['verify'] = is_valid(post_password)
+    # Check for valid entry
+    if is_valid(post_username, 3):  errors['username'] = is_valid(post_username, 3)
+    if is_valid(post_password, 3):  errors['password'] = is_valid(post_password, 3)
+    if is_valid(post_verify):  errors['password'] = is_valid(post_verify)
 
     # Check is password match verfiy password
     if not post_password == post_verify:
