@@ -65,14 +65,14 @@ def newpost():
     if request.method == 'POST':
         post_title = request.form['title']
         post_body = request.form['body']
-        owner = session['user']
-
+        owner = User.query.filter_by(username=session['user']).first()
+        print(owner)
         if is_valid(post_title):  errors['title'] = is_valid(post_title)
         if is_valid(post_body):  errors['body'] = is_valid(post_body)
 
         if len(errors) > 0:
             return render_template('newpost.html', location="New Post",  title=post_title, body=post_body, errors=errors)
-        
+
         new_post = Blog(post_title, post_body, owner)
         db.session.add(new_post)
         db.session.commit()
