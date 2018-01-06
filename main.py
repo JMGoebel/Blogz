@@ -66,6 +66,42 @@ def login():
 
   return render_template('login.html', location="Login", errors=errors)
 
+@app.route('/signup', methods=['POST', 'GET'])
+def signup(): 
+  errors = {}
+
+  if request.method == 'POST':
+    # Grab input from form
+    post_username = request.form['username']
+    post_password = request.form['password']
+    post_verify = request.form['verify']
+
+    # Check for valid entry
+    if is_valid(post_username):  errors['username'] = is_valid(post_username)
+    if is_valid(post_password):  errors['password'] = is_valid(post_password)
+    if is_valid(post_verify):  errors['verify'] = is_valid(post_password)
+
+    # Check is password match verfiy password
+    if not post_password == post_verify:
+      errors['verify'] = "Does not match password!"
+
+    # Check if user exist
+    if User.query.filter_by(username=post_username).first() is not None:
+      errors['username'] = "User name already esist!"
+
+    # If errors exist
+    if len(errors) > 0:
+        return render_template('signup.html', location="signup",  username=post_username, errors=errors)
+
+    # All is well create user in db and add to session then redirct
+    user = User(post_username, post_password)
+    db.session.add(user)
+    db.session.commit()
+    session['user'] = post_username
+    return redirect('/newpost')
+
+  return render_template('signup.html', location="signup", errors=errors)
+
 @app.route('/newpost', methods=['POST', 'GET'])
 def newpost():
 

@@ -18,6 +18,6 @@ class User(db.Model):
   password = db.Column(db.String(64), nullable=False)
   blogs = db.relationship('Blog', backref='owner', lazy=True)
 
-  def __init__(self, title, body):
-    self.title = title
-    self.body = body
+  def __init__(self, username, password):
+    self.username = username
+    self.password = password

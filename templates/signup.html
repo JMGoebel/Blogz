@@ -2,8 +2,8 @@
 
 {% block content %}
 
-<h1>Login</h1>
-<span>{{errors.login}}</span>
+<h1>Create Account</h1>
+
 <form method='POST'>
 
   <div>
@@ -13,15 +13,21 @@
   </div>
 
   <div>
-    <input type="password" name='password' id="password" value='{{password}}'/>
+    <input type="password" name='password' id="password"/>
     <label for="password">password:</label>
     <span>{{errors.password}}</span>
+  </div>
+
+  <div>
+    <input type="password" name='verify' id="verify"/>
+    <label for="verify">verify password:</label>
+    <span>{{errors.verify}}</span>
   </div>
 
   <a type="submit">
     <input type="submit" value='Submit' />
   </a>
 </form>
-<a href="/signup"><button>Create Account</button></a>
+<a href="/login"><button>login</button></a>
 
 {% endblock %}
