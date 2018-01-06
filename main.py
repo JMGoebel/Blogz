@@ -35,6 +35,7 @@ def login():
   errors = {}
 
   if request.method == 'POST':
+    # Grab input from form
     post_username = request.form['username']
     post_password = request.form['password']
 
@@ -42,16 +43,24 @@ def login():
     if is_valid(post_username):  errors['username'] = is_valid(post_username)
     if is_valid(post_password):  errors['password'] = is_valid(post_password)
 
+    # If invalid entry
     if len(errors) > 0:
         return render_template('login.html', location="Login",  username=post_username, errors=errors)
 
-    # Cheack db for user with password
-    if User.query.filter_by(username=post_username, password=post_password).first() is None:
-      errors['login'] = "User does not exist or password is wrong"
+    # Grab user from database
+    user = User.query.filter_by(username=post_username).first()
 
-    if len(errors) > 0:
-        return render_template('login.html', location="Login",  username=post_username, errors=errors)
+    # Check if user exist
+    if not user:
+      errors['username'] = "User does not exist!"
+      return render_template('login.html', location="Login",  username=post_username, errors=errors)
 
+    # Cheack if users password is correct
+    if not post_password == user.password:
+      errors['password'] = "Password is incorrect!"
+      return render_template('login.html', location="Login",  username=post_username, errors=errors)
+
+    # If all is well start a session
     session['user'] = post_username
     return redirect('/newpost')
 
