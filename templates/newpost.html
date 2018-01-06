@@ -1,28 +1,26 @@
 {% extends "base.html" %}
 
 {% block content %}
-    
-<div class="container">
+
 <h1>Creat a new post!</h1>
 <form method='POST' name='create_post'>
 
-    <div class="input-field col s12 m10 l8">
-        <input type="text" name='title' id="title" value='{{title}}'/>
-        <label for="title">Title:</label>
-        <span class="red">{{errors.title}}</span>
-    </div>
+  <div>
+    <input type="text" name='title' id="title" value='{{title}}'/>
+    <label for="title">Title:</label>
+    <span>{{errors.title}}</span>
+  </div>
 
-    <div class="input-field col s12 m10 l8">
-    <textarea class="materialize-textarea" name='body' id="body" value='{{body}}'></textarea>
+  <div>
+    <textarea name='body' id="body" value='{{body}}'></textarea>
     <label for="body">Body:</label>
-    <span class="red">{{errors.body}}</span>
-    </div>
+    <span>{{errors.body}}</span>
+  </div>
 
-    <a type="submit" class="waves-effect waves-light btn-large blue white-text">
-        <i class="material-icons left">check_circle</i>
-        <input type="submit" value='Submit' />
-    </a>
+  <a type="submit">
+    <input type="submit" value='Submit' />
+  </a>
     
 </form>
-</div>
+
 {% endblock %}
