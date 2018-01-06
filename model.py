@@ -5,7 +5,7 @@ class Blog(db.Model):
   id = db.Column(db.Integer, primary_key=True)
   title = db.Column(db.String(120), unique=True, nullable=False)
   body = db.Column(db.Text, nullable=False)
-  author_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+  owner_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
   def __init__(self, title, body):
     self.title = title
