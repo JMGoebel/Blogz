@@ -19,7 +19,6 @@ def is_valid(field, length=0):
   if len(field) < length:
     return "This field is to short."
 
-
 def sort_data(sort_on=None, sort_direction='asc'):
     if sort_on:
         result = Blog.query.order_by(getattr(getattr(Blog, sort_on), sort_direction)()).all()
@@ -31,9 +30,23 @@ def get_post(get_by='id', target=''):
         result = Blog.query.get(target)
         return result
 
+@app.before_request
+def require_login():
+  allowed_routes = [
+    'login',
+    'blog',
+    'index',
+    'signup'
+  ]
+
+  if request.endpoint not in allowed_routes and 'user' not in session:
+    return redirect('/login')
+
 @app.route('/')
 def index():
-    return redirect('/blog')
+    users = User.query.all()
+
+    return render_template('index.html', location="Home", users=users)
 
 @app.route('/login', methods=['GET','POST'])
 def login():
@@ -83,7 +96,6 @@ def signup():
     post_verify = request.form['verify']
 
     # Check for valid entry
-    # Check for valid entry
     if is_valid(post_username, 3):  errors['username'] = is_valid(post_username, 3)
     if is_valid(post_password, 3):  errors['password'] = is_valid(post_password, 3)
     if is_valid(post_verify):  errors['password'] = is_valid(post_verify)
@@ -108,6 +120,11 @@ def signup():
     return redirect('/newpost')
 
   return render_template('signup.html', location="signup", errors=errors)
+
+@app.route('/logout')
+def logout():
+  del session['user']
+  return redirect('/blog')
 
 @app.route('/newpost', methods=['POST', 'GET'])
 def newpost():
@@ -135,16 +152,19 @@ def newpost():
 
 @app.route('/blog', methods=['GET'])
 def blog():
-    posts = sort_data('id', 'desc')
-
+    
+    # Display individual blog post
     if 'id' in request.args:
-        # If id is not an int just return all entries
-        try:
-            index = int(request.args['id'])
-            if index > 0 and len(posts) > index-1:
-                return render_template('showpost.html', location="All Post", post=get_post('id', index))
-        except:
-            pass
+      index = int(request.args['id'])
+      post=Blog.query.get(index)
+      return render_template('showpost.html', location=post.title, post=post)
+    # Display all blogs post from specific user
+    elif 'user' in request.args:
+      user=User.query.filter_by(username=request.args['user']).first()
+      return render_template('userspost.html', location=user, user=user)
+    # Display all blog post
+    else:
+      posts = sort_data('id', 'desc')
 
     return render_template('blog.html', location="All Post", posts=posts)
 
