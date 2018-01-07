@@ -3,6 +3,9 @@
 {% block content %}
 <div>
   <h1>{{post.title}}</h1>
+  <a href="/blog?user={{post.owner.username}}">
+    <h5>{{post.owner.username}}</h5>
+  </a>
   <hr/>
   <p>{{post.body}}</p>
 </div>
