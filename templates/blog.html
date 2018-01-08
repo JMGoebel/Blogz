@@ -9,12 +9,14 @@
       <a href="/blog?id={{post.id}}">
         <h2>{{post.title}}</h2>
       </a>
-    <a href="/blog?user={{post.owner.username}}">
-      <h5>{{post.owner.username}}</h5>
-    </a>
+      <h5>Auther:
+        <a href="/blog?user={{post.owner.username}}">
+          {{post.owner.username}}
+        </a>
+      </h5>
       <p>{{post.body}}</p>
     {% endfor %}
   {% endif %}
-  
+
 {% endblock %}
 

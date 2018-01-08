@@ -3,9 +3,11 @@
 {% block content %}
 <div>
   <h1>{{post.title}}</h1>
-  <a href="/blog?user={{post.owner.username}}">
-    <h5>{{post.owner.username}}</h5>
-  </a>
+  <h5>Auther:
+      <a href="/blog?user={{post.owner.username}}">
+        {{post.owner.username}}
+      </a>
+    </h5>
   <hr/>
   <p>{{post.body}}</p>
 </div>

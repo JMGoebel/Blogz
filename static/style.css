@@ -1,4 +1,22 @@
-body {
-  font-family: 'Roboto', sans-serif;
+html {
   font-family: 'Lato', sans-serif;
+  font-family: 'Roboto', sans-serif;
+}
+
+#navbar {
+  position: fixed;
+}
+
+.spacer {
+  padding-top: 110px;
+}
+
+#links a {
+  color: #212121;
+}
+
+#links {
+  font-size: 1.5em;
+  padding-top: 3em;
+  color: red;
 }

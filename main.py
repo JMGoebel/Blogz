@@ -36,7 +36,8 @@ def require_login():
     'login',
     'blog',
     'index',
-    'signup'
+    'signup',
+    'static'
   ]
 
   # Redirect user to login if not logged in

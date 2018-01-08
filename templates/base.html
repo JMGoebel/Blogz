@@ -1,34 +1,45 @@
 <!doctype html>
 <html>
   <head>
-    <title>Blogz | {{location}}</title>
-    <!--Import Google Icon Font-->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <!--Import materialize.css-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
-    <!--Import fonts-->
+    <link rel="stylesheet" href="/static/materialize.css">
+    <link rel="stylesheet" href="/static/style.css">
     <link href="https://fonts.googleapis.com/css?family=Lato|Roboto" rel="stylesheet">
-    <link type="text/css" rel="stylesheet" href="/static/style.css"/>
+    <title>Blogz | {{location}}</title>
   </head>
   <body>
-    <a href="/blog"><h1>Blogz</h1></a>
-    {% if 'user' in session  %}
-      <p>Hello, {{session['user']}}</p>
-      <a href="/newpost">New Post</a>
-      <a href='/logout'>logout</a>
-    {% else %}
-      <a href="/login">login</a>
-    {% endif %}
-    <a href='/'>Home</a>
-    <a href="/blog">View All</a>
+    <div class="row">
+      <div id="navbar" class="col s12 blue">
+        <div class="row">
+            <div class="col s4">    
+              <a href="/blog"><h1 class="grey-text text-darken-4">Blogz</h1></a>
+            </div>
+
+            <div id="links" class="col s4 center-align">    
+              <a href='/'>Home </a>|
+              <a href="/blog">View All</a>
+              {% if 'user' in session %}
+                |<a href="/newpost"> New Post</a>
+              {% endif %}
+            </div>
+
+            <div class="col s4 right-align">   
+              {% if 'user' in session  %}
+                <p>Hello, {{session['user']}}</p>
+                <a href='/logout'><button>logout</button></a>
+              {% else %}
+                <p>Hello, Guest</p>
+                <a href="/login"><button>login</button></a>
+              {% endif %}
+            </div>
+        </div>
+      </div>
     </div>
+    <div class="col s12 m8 l10 spacer">
+        {% block content %}
+        {% endblock %}
+      </div>
   </div>
-  <div class="">
-      {% block content %}
-      {% endblock %}
-  </div>
-  <!--Import jQuery before materialize.js-->
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+  <script src="/static/materialize.js"></script>
   </body>
 </html>
