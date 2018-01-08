@@ -1,11 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-    
+
   {% if posts|length == 0 %}
-
     <p>No post yet</p>
-
   {% else %}
     {% for post in posts %}
       <a href="/blog?id={{post.id}}">
@@ -17,6 +15,6 @@
       <p>{{post.body}}</p>
     {% endfor %}
   {% endif %}
-
+  
 {% endblock %}
 

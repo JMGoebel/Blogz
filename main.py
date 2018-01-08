@@ -39,8 +39,13 @@ def require_login():
     'signup'
   ]
 
+  # Redirect user to login if not logged in
   if request.endpoint not in allowed_routes and 'user' not in session:
     return redirect('/login')
+
+  # Redirect user to home if trying to log in while logged in
+  if request.endpoint == 'login' and 'user' in session:
+    return redirect('/')
 
 @app.route('/')
 def index():
