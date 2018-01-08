@@ -1,6 +1,7 @@
 <!doctype html>
 <html>
   <head>
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="/static/materialize.css">
     <link rel="stylesheet" href="/static/style.css">
     <link href="https://fonts.googleapis.com/css?family=Lato|Roboto" rel="stylesheet">
@@ -22,13 +23,13 @@
               {% endif %}
             </div>
 
-            <div class="col s4 right-align">   
+            <div id="user-login" class="col s4 right-align">   
               {% if 'user' in session  %}
                 <p>Hello, {{session['user']}}</p>
-                <a href='/logout'><button>logout</button></a>
+                <a class="waves-effect waves-light btn" href="/logout"><i class="material-icons left">cancel</i>logout</a>
               {% else %}
                 <p>Hello, Guest</p>
-                <a href="/login"><button>login</button></a>
+                <a class="waves-effect waves-light btn" href="/login"><i class="material-icons left">input</i>login</a>
               {% endif %}
             </div>
         </div>

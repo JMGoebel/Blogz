@@ -20,3 +20,8 @@ html {
   padding-top: 3em;
   color: red;
 }
+
+#user-login {
+  font-size: 1.5em;
+  padding-right: 1em;
+}
