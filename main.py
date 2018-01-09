@@ -1,5 +1,6 @@
 from flask import Flask, request, redirect, render_template, session
 from flask_sqlalchemy import SQLAlchemy
+import secrets, hashlib
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
@@ -29,6 +30,19 @@ def get_post(get_by='id', target=''):
     if get_by=='id':
         result = Blog.query.get(target)
         return result
+
+def salt_password():
+  return secrets.token_hex(16)
+
+def hash_password(password, salt=None):
+  if salt is None:
+    salt = salt_password()
+  pw_hash = hashlib.sha256(str.encode(password + salt)).hexdigest()
+  return '{},{}'.format(pw_hash, salt)
+
+def check_pw_hash(password, hash, salt):
+  if hash_password(password, salt).split(',')[0] == hash:
+    return True
 
 @app.before_request
 def require_login():
@@ -81,7 +95,7 @@ def login():
       return render_template('login.html', location="Login",  username=post_username, errors=errors)
 
     # Cheack if users password is correct
-    if not post_password == user.password:
+    if not check_pw_hash(post_password, user.pw_hash, user.pw_salt):
       errors['password'] = "Password is incorrect!"
       return render_template('login.html', location="Login",  username=post_username, errors=errors)
 
@@ -118,8 +132,12 @@ def signup():
     if len(errors) > 0:
         return render_template('signup.html', location="signup",  username=post_username, errors=errors)
 
+
     # All is well create user in db and add to session then redirct
-    user = User(post_username, post_password)
+    # get tuple that is hashed password and salt
+    pw_hash = hash_password(post_password)
+
+    user = User(post_username, pw_hash.split(',')[0], pw_hash.split(',')[1])
     db.session.add(user)
     db.session.commit()
     session['user'] = post_username
