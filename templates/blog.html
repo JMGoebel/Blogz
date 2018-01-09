@@ -6,17 +6,35 @@
     <p>No post yet</p>
   {% else %}
     {% for post in posts %}
-      <a href="/blog?id={{post.id}}">
-        <h2>{{post.title}}</h2>
-      </a>
-      <h5>Auther:
-        <a href="/blog?user={{post.owner.username}}">
-          {{post.owner.username}}
+    <div class="row">
+
+      <div id="date-box" class="col blue darken-4">
+        <span id="month">{{post.created_on.strftime("%B")}}</span>
+        <span id="day">{{post.created_on.day}}</span>
+        <span id="year">{{post.created_on.year}}</span>
+      </div>
+
+      <div id="title-box" class="blue lighten-1 grey-text text-darken-4">
+        <a class="grey-text text-darken-4" href="/blog?id={{post.id}}">
+          <h2 id="title">{{post.title}}</h2>
         </a>
-      </h5>
-      <p>{{post.body}}</p>
+        <div class="blue-grey-text text-darken-3">
+            <span>
+              <b>Author:</b><a class="sub-title" href="/blog?user={{post.owner.username}}">{{post.owner.username}}</a>
+            </span>
+            <span class="right">
+              <b>Posted On:</b>
+              <a class="sub-title" href="/blog?user={{post.owner.username}}">{{post.created_on.strftime("%X")}}</a>
+            </span>
+        </div>
+      </div>
+      
+      <div class="blue blue lighten-5 grey-text text-darken-4">
+          <p id="post-body">{{post.body}}</p>
+      </div>
+
+    </div>
     {% endfor %}
   {% endif %}
-
 {% endblock %}
 
